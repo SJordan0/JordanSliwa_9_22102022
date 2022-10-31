@@ -11,6 +11,19 @@ import {localStorageMock} from "../__mocks__/localStorage.js";
 import router from "../app/Router.js";
 
 describe("Given I am connected as an employee", () => {
+  describe('When page it is loading', () => {
+    test('Then, Loading page should be rendered', () => {
+      document.body.innerHTML = BillsUI({ loading: true })
+      expect(screen.getAllByText('Loading...')).toBeTruthy()
+    })
+  })
+  describe('When page back-end send an error message', () => {
+    test('Then, Error page should be rendered', () => {
+      document.body.innerHTML = BillsUI({ error: 'some error message' })
+      expect(screen.getAllByText('Erreur')).toBeTruthy()
+    })
+  })
+
   describe("When I am on Bills Page", () => {
     test("Then bill icon in vertical layout should be highlighted", async () => {
 
@@ -26,6 +39,7 @@ describe("Given I am connected as an employee", () => {
       await waitFor(() => screen.getByTestId('icon-window'))
       const windowIcon = screen.getByTestId('icon-window')
       //to-do write expect expression
+      expect(windowIcon.classList.contains('active-icon')).toBe(true)
 
     })
     test("Then bills should be ordered from earliest to latest", () => {

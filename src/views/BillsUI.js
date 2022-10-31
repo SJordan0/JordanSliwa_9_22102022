@@ -19,14 +19,21 @@ const row = (bill) => {
     `)
   }
 
+const antiChrono = (a, b) => {
+  if(a.rawDate){
+    return a.rawDate < b.rawDate ? 1 : -1
+  }
+  return a.date < b.date ? 1 : -1
+}
+
 const rows = (data) => {
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+  return (data && data.length) ? data.sort(antiChrono).map(bill => row(bill)).join("") : ""
 }
 
 export default ({ data: bills, loading, error }) => {
   
   const modal = () => (`
-    <div class="modal fade" id="modaleFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="modaleFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-testid="modaleFile">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
